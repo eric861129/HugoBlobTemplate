@@ -2,5 +2,6 @@ CheckExternal: false
 IgnoreInternalEmptyHash: true
 IgnoreEmptyHref: true
 IgnoreURLs:
-  - /MyBlob/.*
+  # ⚠️ 注意：請將下方的 "/your-repository-name/.*" 修改為您自己的儲存庫名稱
+  - /your-repository-name/.*
   - /pagefind/.*

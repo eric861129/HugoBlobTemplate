@@ -1,133 +1,111 @@
-# ChiYu Code Journey
+# Hugo Pure & Simple
 
-ChiYu Code Journey 是一個使用 [Hugo](https://gohugo.io/) 構建的靜態部落格，目標是提供簡單且易於維護的寫作與分享平台。
+一個極簡、功能豐富的 Hugo 部落格模板，專為希望專注寫作的您而設計。透過 GitHub Actions，只需幾個簡單步驟，就能擁有一個部署在 GitHub Pages 上的個人部落格。
 
-## 特色
+**[→ 點此查看 Live Demo](https://eric861129.github.io/MyBlob/)** _(請將此連結替換為您自己的 Demo 網站)_
 
-- 以 Markdown 撰寫文章，輕鬆管理內容
-- 透過 Hugo 產生靜態頁面，部署快速
-- 使用 GitHub Actions 自動部署到 GitHub Pages
+## ✨ 功能特色
 
-## 安裝 Hugo
+* **🚀 快速部署**：推送至 `main` 分支即可透過 GitHub Actions 自動部署至 GitHub Pages。
+* **🎨 簡潔設計**：響應式設計，在桌面和行動裝置上都有良好體驗。
+* **🌓 雙色主題**：內建淺色與深色模式，可一鍵切換，並自動記憶偏好。
+* **🔍 全文搜尋**：整合 [Pagefind](https://pagefind.app/)，提供快速的離線搜尋功能。
+* **💬 留言系統**：支援 [giscus](https://giscus.app/)，利用 GitHub Discussions 實現無廣告的留言互動。
+* **📚 功能完整**：
+    * 程式碼區塊語法高亮與一鍵複製功能。
+    * 為長篇文章自動生成浮動目錄 (TOC)。
+    * 自動化的標籤雲 (Tag Cloud) 與文章月曆側邊欄。
+    * 外部連結自動在新分頁開啟，提升閱讀體驗。
 
-1. 下載並安裝 Hugo（需使用 **extended** 版本）：
-   ```bash
-   sudo apt-get install hugo
-   ```
-   若套件庫未提供 extended 版，請至 [官方文件](https://gohugo.io/getting-started/installing/) 下載對應平台的安裝檔。
-### macOS
-在 macOS 環境可透過 Homebrew 安裝：
+---
+
+## 🚀 快速開始 (三步驟擁有你的部落格)
+
+### 步驟 1：使用此模板建立您的儲存庫
+
+點擊頁面右上角的 **"Use this template"** -> **"Create a new repository"**。
+
+<img width="800" src="https://user-images.githubusercontent.com/10986872/204873187-27244580-0c3a-4a6c-8968-358a3798dfc3.png">
+
+為您的儲存庫取一個名字 (例如 `my-awesome-blog`)，然後點擊建立。
+
+### 步驟 2：設定 GitHub Pages 的部署權限
+
+1.  進入您剛剛建立的儲存庫，點擊 **Settings** -> **Actions** -> **General**。
+2.  捲動到頁面底部，在 "Workflow permissions" 區塊，選擇 **"Read and write permissions"**，並儲存。這能確保 GitHub Actions 有權限將網站推送到 `gh-pages` 分支。
+
+<img width="800" src="https://i.imgur.com/PcmN3xT.png">
+
+### 步驟 3：修改核心設定檔
+
+這是最重要的一步！您需要告訴 Hugo 您的網站網址和儲存庫名稱。
+
+1.  回到儲存庫的程式碼頁面，找到並打開 `hugo.toml` 檔案進行編輯。
+2.  **修改 `baseURL`**：將 `baseURL` 的值修改為您的 GitHub Pages 網址。格式為 `https://<您的 GitHub 帳號>.github.io/<您的儲存庫名稱>/`。
+3.  **修改其他資訊**：順便修改網站標題 (`title`) 和作者名稱 (`author.name`)。
+
+    ```toml
+    # 範例：如果您的 GitHub 帳號是 octocat，儲存庫名稱是 my-blog
+    # 那 baseURL 就應該是 "https://octocat.github.io/my-blog/"
+    baseURL = "https://octocat.github.io/my-blog/"
+    
+    title = "Octocat 的開發筆記"
+    
+    [author]
+      name = "Octocat"
+    ```
+4.  接著，修改部署設定檔：
+    * 打開 `.github/workflows/gh-pages.yml`，將 `baseURL` 的值 `/your-repository-name/` 改成您的儲存庫名稱，例如 `/my-blog/`。
+    * 打開 `.htmltest.yml`，將 `IgnoreURLs` 的值 `/your-repository-name/.*` 改成您的儲存庫名稱，例如 `/my-blog/.*`。
+
+5.  儲存並提交 (Commit) 所有變更。
+
+**🎉 恭喜！** 提交後，GitHub Actions 會開始自動部署。幾分鐘後，您就可以在 `https://<您的帳號>.github.io/<您的儲存庫名稱>/` 看到您的新部落格了！
+
+---
+
+## ✍️ 寫作與本地預覽
+
+### 建立新文章
+
+在專案的根目錄下執行以下指令：
 ```bash
-brew install hugo --HEAD --extended
+hugo new posts/my-first-post.md
 ```
-若需要檢查連結，可安裝 htmltest：
-```bash
-brew install htmltest
-# 或使用 go install
-go install github.com/wjdp/htmltest@latest
-export PATH="$PATH:$(go env GOPATH)/bin"
-```
+然後您就可以在 `content/posts/` 目錄下找到 `my-first-post.md` 並開始用 Markdown 寫作。
 
-## 安裝 htmltest (選用)
+### 本地端預覽 (推薦)
 
-如果想在本地端檢查連結，可安裝 [htmltest](https://github.com/wjdp/htmltest)：
+1.  **安裝 Hugo (Extended Version)**
+    * **macOS**: `brew install hugo`
+    * **Windows**: `scoop install hugo-extended` 或 `choco install hugo-extended`
+    * **其他系統**: 參考 [Hugo 官方安裝文件](https://gohugo.io/getting-started/installing/)。
 
-```bash
-go install github.com/wjdp/htmltest@latest
-export PATH="$PATH:$(go env GOPATH)/bin"
-```
+2.  **啟動本地伺服器**
+    ```bash
+    hugo server -D
+    ```
+    現在，打開瀏覽器訪問 `http://localhost:1313` 即可看到您的網站。
 
-## 建立與編輯文章
+---
 
-1. 於專案根目錄執行以下指令產生新文章：
-   ```bash
-   hugo new posts/my-post.md
-   ```
-2. 於 `content/posts/` 目錄下找到產生的檔案並使用喜愛的編輯器撰寫內容。
+## 🔧 進階設定
 
+### 設定留言功能 (giscus)
 
-## 本地端啟動
+1.  確保您的部落格儲存庫是**公開 (Public)**的。
+2.  前往 [giscus.app](https://giscus.app) 進行設定，並授權 App 存取您的儲存庫。
+3.  依照 giscus 網站的指引，啟用儲存庫的 **Discussions** 功能，並選擇一個討論分類 (例如 "Announcements")。
+4.  giscus 會產生 `repo`, `repoId`, `category`, `categoryId` 四個值。
+5.  將這四個值填入 `hugo.toml` 的 `[params.giscus]` 區塊中。
+6.  提交變更後，文章頁面下方就會出現留言區。
 
-在專案目錄執行：
-```bash
-hugo server -D
-```
-瀏覽器開啟 [http://localhost:1313](http://localhost:1313) 即可預覽。
+---
 
-## GitHub Pages 自動部署
+## 🤝 貢獻
 
-本專案可透過 GitHub Actions 在每次推送到 `main` 分支後，自動將產生的檔案部署至 `gh-pages` 分支。範例 workflow 如下：
-```yaml
-name: Deploy to GitHub Pages
-on:
-  push:
-    branches: [ main ]
-permissions:
-  contents: write
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: '0.123.7'
-          extended: true
-      - run: hugo --minify --gc
-      - name: Check links
-        uses: wjdp/htmltest-action@master
-        with:
-          path: ./public
-          config: .htmltest.yml
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-          publish_branch: gh-pages
-```
-上述 workflow 範例會啟用 Hugo 的 **extended** 版本，以支援 SCSS 等功能。
-將此檔案存成 `.github/workflows/gh-pages.yml` 後，並在 GitHub Pages 設定中將分支設為 `gh-pages`，即可啟用自動部署。
+歡迎任何人對此專案做出貢獻！詳情請參考 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
-若網站仍僅顯示 README，請檢查下列設定：
+## 📄 授權
 
-1. GitHub Actions workflow 是否已成功執行並建立 `gh-pages` 分支。
-2. GitHub Pages 設定頁面是否選擇 `gh-pages` 作為來源分支。
-3. 部署完成後，即可在 <https://eric861129.github.io/MyBlob/> 看到網站首頁。
-
-### 需要的 Secret
-
-## 啟用 giscus 留言功能
-
-1. 前往 <https://giscus.app> 安裝 giscus GitHub App。
-2. 在設定頁面選擇留言用的 repository 與討論分類，產生 repoId 與 categoryId。
-3. 將 `hugo.toml` 內 `[params.giscus]` 區段的 `repo`、`repoId`、`category` 與 `categoryId` 更新為取得的值。
-4. 重新部署到 GitHub Pages 後，即可在文章頁面看到 giscus 留言區。
-此 workflow 預設使用 GitHub 提供的 `GITHUB_TOKEN` 推送內容，因此不需額外設定憑證。若存取權不足，可建立具 `repo` 權限的 Personal Access Token，並在倉庫的 Secrets 中設定 `GH_PAGES_TOKEN`，再於 workflow 內以 `github_token: ${{ secrets.GH_PAGES_TOKEN }}` 使用。
-
-## 貢獻方式
-
-1. Fork 本倉庫並建立分支進行開發。
-2. 完成後提交 Pull Request，描述所做修改。
-3. 請確保程式碼格式整潔並通過下方測試指令。
-4. 更多程式碼規範請參考 [CONTRIBUTING.md](CONTRIBUTING.md)
-
-## 測試指令
-
-在根目錄執行：
-```bash
-hugo --minify --gc
-htmltest -c .htmltest.yml ./public
-```
-若兩個命令皆成功完成，表示產生的靜態檔案位於 `public/` 目錄且連結皆有效，可進一步部署。
-若無網路環境，可使用 `.htmltest.yml` 中的 `CheckExternal: false` 設定，略過外部連結檢查。
-
-
-若系統顯示 `htmltest: command not found`，請先安裝 htmltest：
-```bash
-go install github.com/wjdp/htmltest@latest
-export PATH="$PATH:$(go env GOPATH)/bin"
-```
-
-## License
-
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+本專案採用 [MIT License](LICENSE) 授權。
