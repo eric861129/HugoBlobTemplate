@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-tw">
+<html lang="{{ .Site.LanguageCode | default "zh-tw" }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
     
     <script>
-      // 此立即執行函式會在頁面繪製前執行，從根本解決閃爍問題
       (function() {
-        // 優先從 localStorage 讀取使用者設定，若無，則預設為 'dark'
         const theme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', theme);
       })();
@@ -28,10 +26,10 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <header class="flex justify-between items-center py-6 border-b" style="border-color: var(--border-color);">
-            <a href="/MyBlob/" class="text-xl sm:text-2xl font-bold" style="color: var(--text-color);">{{ .Site.Title }}</a>
+            <a href="{{ "/" | relURL }}" class="text-xl sm:text-2xl font-bold" style="color: var(--text-color);">{{ .Site.Title }}</a>
             <nav class="flex items-center space-x-2 sm:space-x-4">
                 <div id="search" ></div>
-                <a href="/MyBlob/about/" class="text-sm sm:text-base" style="color: var(--text-secondary);">關於我</a>
+                <a href="{{ "/about/" | relURL }}" class="text-sm sm:text-base" style="color: var(--text-secondary);">關於我</a>
                 <button id="theme-toggle" title="切換深色/淺色主題">
                     <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                     <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -42,7 +40,7 @@
         {{ block "main" . }}{{ end }}
 
         <footer class="mt-16 pt-8 border-t text-center text-sm" style="border-color: var(--border-color); color: var(--text-secondary);">
-            <p>&copy; {{ now.Format "2006" }} ChiYu. All Rights Reserved.</p>
+            <p>&copy; {{ now.Format "2006" }} {{ .Site.Author.name | default .Site.Title }}. All Rights Reserved.</p>
         </footer>
 
     </div>
@@ -53,17 +51,16 @@
             new PagefindUI({
                 element: '#search',
                 showSubResults: false,
-                baseUrl: '/MyBlob/',
+                baseUrl: '{{ "/" | relURL }}',
                  language: 'zh-tw'
             });
         }
     }
     </script>
-    <script src="/MyBlob/pagefind/pagefind-ui.js" onload="initPagefind()"></script>
+    <script src="{{ "/pagefind/pagefind-ui.js" | relURL }}" onload="initPagefind()"></script>
     
     <script>
          document.addEventListener('DOMContentLoaded', () => {
-          // --- 主題切換按鈕邏輯 ---
           const themeToggle = document.getElementById('theme-toggle');
           if (themeToggle) {
             themeToggle.addEventListener('click', () => {
@@ -72,7 +69,6 @@
               document.documentElement.setAttribute('data-theme', newTheme);
               localStorage.setItem('theme', newTheme);
 
-              // 通知 giscus 評論區變更主題
               const giscusFrame = document.querySelector('iframe.giscus-frame');
               if (giscusFrame) {
                 giscusFrame.contentWindow.postMessage({ giscus: { setTheme: newTheme } }, 'https://giscus.app');
@@ -80,7 +76,6 @@
             });
           }
           
-          // --- 複製程式碼按鈕邏輯 ---
           document.querySelectorAll('div.highlight').forEach(block => {
             const copyButton = document.createElement('button');
             copyButton.className = 'copy-code-button';
@@ -96,7 +91,6 @@
             block.appendChild(copyButton);
           });
 
-          // --- 目錄高亮邏輯 ---
           const tocLinks = document.querySelectorAll('.post-toc-sidebar nav#TableOfContents a');
           const headings = Array.from(tocLinks).map(link => {
               try {
@@ -132,15 +126,14 @@
               headings.forEach(heading => observer.observe(heading));
           }
           
-          // --- Giscus 評論區初始化邏輯 ---
           const giscusContainer = document.getElementById('giscus-container');
           if (giscusContainer) {
               const script = document.createElement('script');
               script.src = "https://giscus.app/client.js";
-              script.setAttribute("data-repo", "eric861129/MyBlob");
-              script.setAttribute("data-repo-id", "R_kgDOO2a_UQ");
-              script.setAttribute("data-category", "Announcements");
-              script.setAttribute("data-category-id", "DIC_kwDOO2a_Uc4CrGzL");
+              script.setAttribute("data-repo", "{{ .Site.Params.giscus.repo }}");
+              script.setAttribute("data-repo-id", "{{ .Site.Params.giscus.repoId }}");
+              script.setAttribute("data-category", "{{ .Site.Params.giscus.category }}");
+              script.setAttribute("data-category-id", "{{ .Site.Params.giscus.categoryId }}");
               script.setAttribute("data-mapping", "pathname");
               script.setAttribute("data-strict", "0");
               script.setAttribute("data-reactions-enabled", "1");
