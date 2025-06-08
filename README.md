@@ -2,7 +2,7 @@
 
 一個極簡、功能豐富的 Hugo 部落格模板，專為希望專注寫作的您而設計。透過 GitHub Actions，只需幾個簡單步驟，就能擁有一個部署在 GitHub Pages 上的個人部落格。
 
-**[→ 點此查看 Live Demo](https://eric861129.github.io/MyBlob/)** _(請將此連結替換為您自己的 Demo 網站)_
+**[→ 點此查看 Live Demo](https://eric861129.github.io/HugoBlobTemplate/)** _(請將此連結替換為您自己的 Demo 網站)_
 
 ## ✨ 功能特色
 
