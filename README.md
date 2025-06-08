@@ -55,8 +55,8 @@
       name = "Octocat"
     ```
 4.  接著，修改部署設定檔：
-    * 打開 `.github/workflows/gh-pages.yml`，將 `baseURL` 的值 `/your-repository-name/` 改成您的儲存庫名稱，例如 `/my-blog/`。
-    * 打開 `.htmltest.yml`，將 `IgnoreURLs` 的值 `/your-repository-name/.*` 改成您的儲存庫名稱，例如 `/my-blog/.*`。
+    * 打開 `.github/workflows/gh-pages.yml`，若直接使用此範例專案，可維持 `baseURL` 為 `/HugoBlobTemplate/`；若另建儲存庫，請改成您的儲存庫名稱，例如 `/my-blog/`。
+    * 打開 `.htmltest.yml`，同樣將 `IgnoreURLs` 的值 `/HugoBlobTemplate/.*` 或您的儲存庫名稱調整一致。
 
 5.  儲存並提交 (Commit) 所有變更。
 
@@ -99,6 +99,38 @@ hugo new posts/my-first-post.md
 4.  giscus 會產生 `repo`, `repoId`, `category`, `categoryId` 四個值。
 5.  將這四個值填入 `hugo.toml` 的 `[params.giscus]` 區塊中。
 6.  提交變更後，文章頁面下方就會出現留言區。
+
+### 設定社群媒體外部連結
+
+若要在側邊欄顯示您常用的社群或相關網站連結，可在 `hugo.toml` 裡加入 `[params.social]`
+區塊，並以 `名稱 = "網址"` 的方式列出。例如：
+
+```toml
+[params.social]
+  GitHub = "https://github.com/your-name"
+  Twitter = "https://twitter.com/your-name"
+  個人網站 = "https://your-blog.com"
+```
+
+只要設定完成並重新部署，網站右側的「相關連結」區塊就會列出這些外部連結，並在新分頁開啟。
+
+## ❓ 疑難排解
+
+### 主題切換按鈕消失
+
+1. 確認 `layouts/_default/baseof.html` 中仍包含 `<button id="theme-toggle">` 標記。
+2. `assets/css/custom.css` 必須保留與 `#theme-toggle` 相關的樣式設定。
+3. 若仍看不到按鈕，請檢查瀏覽器開發者工具，確認 `custom.css` 與頁面底部 JavaScript 是否成功載入。
+
+### 首頁連結 404
+
+若點擊網站標題後跳到錯誤的頁面，請在 `hugo.toml` 將 `baseURL` 設為：
+
+```toml
+baseURL = "https://eric861129.github.io/HugoBlobTemplate/"
+```
+
+並確保 `.github/workflows/gh-pages.yml` 也使用相同路徑。
 
 ---
 

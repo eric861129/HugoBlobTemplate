@@ -7,7 +7,8 @@
 # 對於 GitHub Pages，格式為 "https://<您的 GitHub 帳號>.github.io/<您的儲存庫名稱>/"
 #
 # ⚠️ 這是部署成功的關鍵，請務必修改！
-baseURL = "https://your-username.github.io/your-repository-name/"
+# 下列網址以範例儲存庫 `HugoBlobTemplate` 為例，請依您實際的 GitHub 帳號與儲存庫名稱調整
+baseURL = "https://eric861129.github.io/HugoBlobTemplate/"
 languageCode = "zh-tw"
 title = "我的新部落格"
 
@@ -28,7 +29,15 @@ paginate = 5
   # --- Giscus 留言功能設定 ---
   # 請參考 README 中的教學，到 giscus.app 取得以下四個值
   [params.giscus]
-    repo = ""              # 格式： "your-username/your-repository-name"
+    # 範例：若使用本專案，可填寫 "your-username/HugoBlobTemplate"
+    repo = ""
     repoId = ""            # giscus 提供的 repoId
     category = ""          # giscus 討論區的分類名稱
     categoryId = ""        # giscus 提供的 categoryId
+
+  # --- 社群媒體外部連結設定 ---
+  # 在側邊欄顯示常用社群或相關網站的連結
+  [params.social]
+    # 範例：依需求新增或修改名稱與網址
+    GitHub = "https://github.com/your-name"
+    Twitter = "https://twitter.com/your-name"

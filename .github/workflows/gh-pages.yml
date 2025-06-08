@@ -20,9 +20,10 @@ jobs:
           extended: true
 
       # --- 關鍵修改：在建置指令中加入 baseURL ---
-      # ⚠️ 注意：請將下方的 "/your-repository-name/" 修改為您自己的儲存庫名稱
+      # ⚠️ 注意：如果您直接套用此範例專案，可保持下列路徑不變
+      #     使用自有儲存庫時，請將 "/HugoBlobTemplate/" 改為您的儲存庫名稱
       - name: Build site
-        run: hugo --minify --gc --baseURL "/your-repository-name/"
+        run: hugo --minify --gc --baseURL "/HugoBlobTemplate/"
 
       # --- ↓↓↓ 關鍵修改 (2/2): 修正 Pagefind 的 deprecated 選項 ---
       - name: Build Pagefind search index

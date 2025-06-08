@@ -2,6 +2,6 @@ CheckExternal: false
 IgnoreInternalEmptyHash: true
 IgnoreEmptyHref: true
 IgnoreURLs:
-  # ⚠️ 注意：請將下方的 "/your-repository-name/.*" 修改為您自己的儲存庫名稱
-  - /your-repository-name/.*
+  # ⚠️ 注意：如果您使用範例專案，可保持下列路徑為 HugoBlobTemplate
+  - /HugoBlobTemplate/.*
   - /pagefind/.*
