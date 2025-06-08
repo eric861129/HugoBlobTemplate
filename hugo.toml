@@ -1,0 +1,93 @@
+baseURL = 'https://eric861129.github.io/MyBlob/'
+languageCode = 'zh-TW'
+title = 'ChiYu Code Journey'
+# theme = 'github.com/kdevo/osprey-delight/v5'
+paginate = 5
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+[related]
+  threshold = 80
+  includeNewer = true
+  toLower = false
+
+  [[related.indices]]
+    name = "tags"
+    weight = 100
+  [[related.indices]]
+    name = "categories"
+    weight = 80
+  [[related.indices]]
+    name = "date"
+    weight = 10
+    pattern = "2006"
+
+
+# [module]
+#     [[module.imports]]
+#         path = 'github.com/kdevo/osprey-delight/v5'
+
+[params]
+  description = "歡迎來到 ChiYu 的程式旅程部落格"
+  [params.author]
+    name = "ChiYu"
+[params.giscus]
+  enable = true
+  repo = "eric861129/MyBlob"
+  repoId = "R_kgDOO2a_UQ"
+  category = "Announcements"
+  categoryId = "DIC_kwDOO2a_Uc4CrGzL"
+  mapping = "pathname"
+  strict = "0"
+  reactionsEnabled = "1"
+  emitMetadata = "0"
+  inputPosition = "top"
+  theme = "dark"
+  lang = "zh-TW"
+  loading = "lazy"
+  # [params.logo]
+  #   logo__png = "images/logo.png"
+  #   logo_dark__png = "images/logo-dark.png"
+  #   logo_small__png = "images/logo-small.png"
+  #   logo_small_dark__png = "images/logo-small-dark.png"
+
+  # --- ↓↓↓ 新增此區塊來放置社群連結 ↓↓↓ ---
+  [params.social]
+    GitHub = "https://github.com/eric861129"
+    LinkedIn = "https://www.linkedin.com/in/chiyu-huang/"
+    Threads = "https://www.threads.com/@chiyuisme"
+    CakeResume = "https://www.cake.me/me/iamhandsomeboy1129"
+  # --- ↑↑↑ 新增此區塊來放置社群連結 ↑↑↑ ---
+
+[menu]
+  [[menu.main]]
+    name = '首頁'
+    pageRef = '/'
+    weight = 10
+  [[menu.main]]
+    name = '文章'
+    pageRef = '/posts'
+    weight = 20
+  [[menu.main]]
+    name = '關於'
+    # 導向關於頁面，路徑需以斜線結尾避免 htmltest 連結錯誤
+    pageRef = '/about/'
+    weight = 30
+
+[markup]
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+    ordered = false
+
+    # 請將這段設定加入到您的 hugo.toml 檔案中
+
+[permalinks]
+  day = "/:year/:month/:day/"
+
+# 同時，請再次確認或加入 disableKinds 設定，
+# 確保 "day" 沒有被包含在裡面。
+# 如果沒有這行就不用加，如果有，請確保是類似下面的樣子：
+# disableKinds = ["taxonomy", "term"]

@@ -1,0 +1,74 @@
+<div class="mt-8">Add commentMore actions
+    <h3 class="text-xl font-bold mb-4 pb-2 border-b" style="border-color: var(--border-color);">文章月曆</h3>
+    <div id="calendar-widget">
+        <div class="flex justify-between items-center mb-2 font-semibold">
+            <button id="cal-prev" title="上個月" class="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700">&lt;</button>
+            <span id="cal-month-year"></span>
+            <button id="cal-next" title="下個月" class="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700">&gt;</button>
+        </div>
+        <div class="grid grid-cols-7 text-center text-xs gap-y-2" style="color: var(--text-secondary);">
+            <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+        </div>
+        <div id="cal-days" class="grid grid-cols-7 text-center text-sm mt-2 gap-y-2">
+            </div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const postedDates = {};
+    {{ range where .Site.RegularPages "Type" "posts" }}
+        {{ $dateStr := .Date.Format "2006-1-2" }}
+        
+        {{/* --- 修正：直接使用文章的永久連結 (.Permalink) --- */}}
+        {{/* 舊的寫法會產生不存在的每日列表頁面，導致 404 */}}
+        {{/* 新的寫法會直接連結到該日期的文章頁面 */}}
+        postedDates["{{ $dateStr }}"] = "{{ .Permalink }}";
+
+    {{ end }}
+
+    const monthYearEl = document.getElementById('cal-month-year');
+    const daysEl = document.getElementById('cal-days');
+    const prevBtn = document.getElementById('cal-prev');
+    const nextBtn = document.getElementById('cal-next');
+
+    let currentDate = new Date();
+
+    function renderCalendar(date) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        monthYearEl.textContent = `${year} 年 ${month + 1} 月`;
+        daysEl.innerHTML = ''; 
+        const firstDayOfMonth = new Date(year, month, 1);
+        const lastDayOfMonth = new Date(year, month + 1, 0);
+        const firstDayOfWeek = firstDayOfMonth.getDay(); 
+        for (let i = 0; i < firstDayOfWeek; i++) {
+            daysEl.insertAdjacentHTML('beforeend', '<div></div>');
+        }
+        for (let day = 1; day <= lastDayOfMonth.getDate(); day++) {
+            const dateString = `${year}-${month + 1}-${day}`;
+            if (postedDates[dateString]) {
+                daysEl.insertAdjacentHTML('beforeend', `
+                    <a href="${postedDates[dateString]}" class="block p-1 rounded-full transition-colors font-bold" style="color: var(--link-color); text-decoration: underline; text-decoration-thickness: 2px;">
+                        ${day}
+                    </a>
+                `);
+            } else {
+                daysEl.insertAdjacentHTML('beforeend', `<span class="block p-1">${day}</span>`);
+            }
+        }
+    }
+
+    prevBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar(currentDate);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar(currentDate);
+    });
+
+    renderCalendar(currentDate);
+});
+</script>

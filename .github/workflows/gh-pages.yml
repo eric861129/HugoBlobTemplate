@@ -1,0 +1,42 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.123.7'
+          extended: true
+
+      # --- ↓↓↓ 關鍵修改 (1/2): 在建置指令中加入 baseURL ---
+      - name: Build site
+        run: hugo --minify --gc --baseURL "/MyBlob/"
+
+      # --- ↓↓↓ 關鍵修改 (2/2): 修正 Pagefind 的 deprecated 選項 ---
+      - name: Build Pagefind search index
+        run: npx --yes pagefind --site public --output-subdir pagefind
+
+      # 3. 檢查連結
+      - name: Check links
+        uses: wjdp/htmltest-action@master
+        with:
+          path: ./public
+          config: .htmltest.yml
+          
+      # 4. 部署
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
